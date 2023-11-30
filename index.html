@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>鍵盤</title>
+    <link rel="stylesheet" href="./public/main.css">
+    <script src="./public/index.js"></script>
+    <script src="./public/data.js"></script>
+</head>
+
+<body>
+    <div class="text-container">
+        <textarea rows="4" class="text-box" placeholder="文字測試區"></textarea>
+    </div>
+    <div class="container"></div>
+    <div class="line"></div>
+    <form style="padding-bottom: 40px; margin: auto; width: 360px; font-size: 20px;">
+        <p style="margin-left: 20px; font-weight: bold; font-size: 24px;">請選擇您較適用的鍵盤範例：</p>
+        <div class="form-inputs">
+            <label>
+                <input type="radio" name="keyboard_type" value="1" />
+                鍵盤(一)：標準版
+            </label>
+            <label>
+                <input type="radio" name="keyboard_type" value="2" />
+                鍵盤(二)：符號版
+            </label>
+            <label>
+                <input type="radio" name="keyboard_type" value="3" />
+                鍵盤(三)：混合版
+            </label>
+        </div>
+        <input type="submit" value="確認投票" class="form-submit" />
+    </form>
+</body>
+
+</html>
