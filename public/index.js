@@ -96,7 +96,8 @@ class keyboard {
             }
             switch (item.text) {
                 case 'space':
-                    html += `<div class="btn-box ${hasSymbol ? 'space-2' : 'space'}"><div class="item" value="${item.text}">${item.text}</div></div>`
+                    html += `<div class="btn-box ${hasSymbol ? 'space-2' : 'space'}"><div class="item" value="${item.text}">${item.text}</div>
+                    </div>`
                     break;
                 case 'up': case 'back': case 'face':
                     html += `<div class="btn-box icon"><div class="item" value="${item.text}">${item.icon}</div></div>`
@@ -110,7 +111,9 @@ class keyboard {
                 case 'symbol':
                     hasSymbol = true
                     html += `<div class="btn-box icon"><div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
-                        <div class="item" value="${item.content[0]}">${item.content[0]}</div></div>`
+                        <div class="item" value="${item.content[0]}">${item.content[0]}</div>
+                        <div class="top-word">${item.content[0]}</div>
+                        </div>`
                     break;
                 case 'global': case 'mic':
                     html += `<div class="btn-box bottom"><div class="item" value="${item.text}">${item.icon}</div></div>`
@@ -119,7 +122,8 @@ class keyboard {
                     html += `<div class="btn-box">
                     <div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
                     <div class="item" value="${item.text}" data-down="${item.text}" ${item.up ? `data-up="${item.up}"` : ''}>${item.text}</div>
-                    <div class="top-word">${item.text}</div></div>`
+                    <div class="top-word">${item.text}</div>
+                    </div>`
                     break;
             }
         }
@@ -134,6 +138,9 @@ class keyboard {
 
     handleTouchstartButton(e) {
         e.preventDefault()
+        if (this.hoverItem) {
+            return
+        }
         let y
         if (this.device === 'pc') {
             this.x = e.clientX
@@ -176,9 +183,9 @@ class keyboard {
         }
         // 不得超過此node範圍
         if (this.x < divLeft || this.x > divRight || y < divTop || y > divBottom) {
+            this.handleTouchendButton()
             this.showContent(this.hoverItem, '')
             this.hoverItem = ''
-            this.handleTouchendButton()
         }
         if (this.activeContent) {
             const totalItem = Object.values(this.activeContent).length
@@ -197,7 +204,7 @@ class keyboard {
                 }
                 this.activeX = this.x
             }
-        } else {
+        } else if (this.backTimer === '') {
             let swapItem = document.elementFromPoint(this.x, y) === null ? hoverItem : document.elementFromPoint(this.x, y)
             if (swapItem.classList.contains('item')) {
                 if (this.hoverItem) {
@@ -314,7 +321,7 @@ class keyboard {
         if (this.hoverItem) {
             this.hoverItem.classList.toggle('hover', false)
             this.hoverItem.classList.toggle('show', false)
-            if(this.hoverItem.parentNode.querySelector('.connect-word')) {
+            if (this.hoverItem.parentNode.querySelector('.connect-word')) {
                 this.hoverItem.parentNode.querySelector('.connect-word').classList.toggle('show', false)
             }
             this.hoverItem = ''
