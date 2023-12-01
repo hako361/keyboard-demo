@@ -116,8 +116,10 @@ class keyboard {
                     html += `<div class="btn-box bottom"><div class="item" value="${item.text}">${item.icon}</div></div>`
                     break;
                 default:
-                    html += `<div class="btn-box"><div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
-                <div class="item" value="${item.text}" data-down="${item.text}" ${item.up ? `data-up="${item.up}"` : ''}>${item.text}</div></div>`
+                    html += `<div class="btn-box">
+                    <div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
+                    <div class="item" value="${item.text}" data-down="${item.text}" ${item.up ? `data-up="${item.up}"` : ''}>${item.text}</div>
+                    <div class="top-word">${item.text}</div></div>`
                     break;
             }
         }
@@ -223,8 +225,13 @@ class keyboard {
     showContent(item, status) {
         if (status === 'show') {
             item.classList.toggle('hover', true)
+            if (item.parentNode.querySelector('.top-word')) {
+                const w = item.parentNode.querySelector('.top-word')
+                w.style.left = (item.clientWidth - w.clientWidth) / 2 + 'px'
+            }
             if (item.parentNode.querySelector('.connect-word') && !this.hoverLock) {
                 item.parentNode.querySelector('.connect-word').classList.toggle('show', true)
+                Object.values(item.parentNode.querySelectorAll('.connect-word div')).map(d => d.style.width = item.clientWidth + 'px')
                 const keyboard = this.nodes.template.getBoundingClientRect()
                 const content = item.parentNode.querySelector('.connect-word').getBoundingClientRect()
                 if (content.right > keyboard.right) {
@@ -236,7 +243,7 @@ class keyboard {
                     this.activeItem.classList.toggle('active', false)
                 }
                 this.activeX = this.x
-                this.activeContent = item.parentNode.firstChild.querySelectorAll('div')
+                this.activeContent = item.parentNode.querySelector('.connect-word').querySelectorAll('div')
                 this.activeItem = 0
                 this.activeContent[this.activeItem].classList.toggle('active', true)
             } else if (item.getAttribute('value') === 'back' && !this.hoverLock) {
@@ -276,11 +283,13 @@ class keyboard {
                                 btn.setAttribute('value', btn.getAttribute('data-up'))
                                 btn.parentNode.querySelector('.connect-word').firstChild.innerText = btn.getAttribute('data-up')
                                 btn.parentNode.querySelector('.connect-word').firstChild.setAttribute('value', btn.getAttribute('data-up'))
+                                btn.parentNode.querySelector('.top-word').innerText = btn.getAttribute('data-up')
                             } else {
                                 btn.innerText = btn.getAttribute('data-down')
                                 btn.setAttribute('value', btn.getAttribute('data-down'))
                                 btn.parentNode.querySelector('.connect-word').firstChild.innerText = btn.getAttribute('data-down')
                                 btn.parentNode.querySelector('.connect-word').firstChild.setAttribute('value', btn.getAttribute('data-down'))
+                                btn.parentNode.querySelector('.top-word').innerText = btn.getAttribute('data-down')
                             }
                         }
                     })
@@ -305,7 +314,9 @@ class keyboard {
         if (this.hoverItem) {
             this.hoverItem.classList.toggle('hover', false)
             this.hoverItem.classList.toggle('show', false)
-            this.hoverItem.parentNode.firstChild.classList.toggle('show', false)
+            if(this.hoverItem.parentNode.querySelector('.connect-word')) {
+                this.hoverItem.parentNode.querySelector('.connect-word').classList.toggle('show', false)
+            }
             this.hoverItem = ''
         }
         this.nodes.template.onmousemove = ''
