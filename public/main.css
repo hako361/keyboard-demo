@@ -117,6 +117,10 @@ body {
     width: 11%;
 }
 
+.btn-box.big {
+    width: 13%;
+}
+
 .btn-box.space {
     width: 47%;
 }
@@ -240,6 +244,22 @@ body {
 
 .form-submit:hover {
     background: #0a58ca;
+}
+
+.d-none {
+    display: none;
+}
+
+.fs-12px *{
+    font-size: 12px;
+}
+
+[key="2"] .btn-box.space-2 {
+    width: 50%
+}
+.keyboard-border.android .keyboard-container{
+    height: 280px;
+    max-height: 280px;
 }
 
 @media screen and (min-width: 1110px) {

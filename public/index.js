@@ -4,7 +4,8 @@ window.onload = () => {
     const models = {
         "1": new keyboard(),
         "2": new keyboard(),
-        "3": new keyboard()
+        "3": new keyboard(),
+        "4": new keyboard()
     }
     for (const [key, model] of Object.entries(models)) {
         model.setContainer(container)
@@ -44,7 +45,6 @@ class keyboard {
     setData(allData) {
         this.data = allData.data
         this.row = allData.row
-        this.count = this.row[this.r]
         this.title = allData.title
     }
 
@@ -83,54 +83,77 @@ class keyboard {
     }
 
     getHTML() {
-        let html = ''
+        let html = []
         let hasSymbol = false
+        let os = 'ios'
+        if (this.title.includes('android')) {
+            os = 'android'
+        }
         for (const [key, item] of Object.entries(this.data)) {
-            if (this.count === 0) {
-                html += '</div><div class="row">'
-                this.r++
-                this.count = this.row[this.r]
-                this.count--
-            } else {
-                this.count--
-            }
-            switch (item.text) {
-                case 'space':
-                    html += `<div class="btn-box ${hasSymbol ? 'space-2' : 'space'}"><div class="item" value="${item.text}">${item.text}</div>
+            console.log(key)
+            this.r = 0
+            this.count = this.row[key][this.r]
+            html[key] = ''
+            for (const [k, i] of Object.entries(item)) {
+                if (this.count === 0) {
+                    html[key] += '</div><div class="row">'
+                    this.r++
+                    this.count = this.row[key][this.r]
+                    this.count--
+                } else {
+                    this.count--
+                }
+                switch (i.text) {
+                    case 'space':
+                        html[key] += `<div class="btn-box ${hasSymbol ? 'space-2' : 'space'}" data-no="${k}"><div class="item" value="${i.text}">${i.text}</div>
                     </div>`
-                    break;
-                case 'up': case 'back': case 'face':
-                    html += `<div class="btn-box icon"><div class="item" value="${item.text}">${item.icon}</div></div>`
-                    break;
-                case '123':
-                    html += `<div class="btn-box icon color-2"><div class="item" value="${item.text}">${item.text}</div></div>`
-                    break;
-                case 'return':
-                    html += `<div class="btn-box return color-2"><div class="item" value="${item.text}">${item.text}</div></div>`
-                    break;
-                case 'symbol':
-                    hasSymbol = true
-                    html += `<div class="btn-box icon"><div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
-                        <div class="item" value="${item.content[0]}">${item.content[0]}</div>
-                        <div class="top-word">${item.content[0]}</div>
+                        break;
+                    case 'up': case 'back': case 'face':
+                        html[key] += `<div class="btn-box icon" data-no="${k}"><div class="item" value="${i.text}">${i.icon}</div></div>`
+                        break;
+                    case '#+=':
+                        html[key] += `<div class="btn-box big color-2 fs-12px" data-no="${k}"><div class="item" value="${i.text}">${i.text}</div></div>`
+                        break;
+                    case '123': case 'ABC':
+                        html[key] += `<div class="btn-box icon color-2" data-no="${k}"><div class="item" value="${i.text}">${i.text}</div></div>`
+                        break;
+                    case 'return':
+                        html[key] += `<div class="btn-box return color-2" data-no="${k}"><div class="item" value="${i.text}"><img src="./public/enter.svg"></div></div>`
+                        break;
+                    case 'symbol':
+                        hasSymbol = true
+                        html[key] += `<div class="btn-box icon" data-no="${k}"><div class="connect-word">${i.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
+                        <div class="item" value="${i.content[0]}">${i.content[0]}</div>
+                        <div class="top-word">${i.content[0]}</div>
                         </div>`
-                    break;
-                case 'global': case 'mic':
-                    html += `<div class="btn-box bottom"><div class="item" value="${item.text}">${item.icon}</div></div>`
-                    break;
-                default:
-                    html += `<div class="btn-box">
-                    <div class="connect-word">${item.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
-                    <div class="item" value="${item.text}" data-down="${item.text}" ${item.up ? `data-up="${item.up}"` : ''}>${item.text}</div>
-                    <div class="top-word">${item.text}</div>
+                        break;
+                    case 'global': case 'mic':
+                        html[key] += `<div class="btn-box bottom" data-no="${k}"><div class="item" value="${i.text}">${i.icon}</div></div>`
+                        break;
+                    case '.': case ',': case '?': case '!': case 'ʼ':
+                        html[key] += `<div class="btn-box big" data-no="${k}">
+                        <div class="connect-word">${i.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
+                        <div class="item" value="${i.text}" data-down="${i.text}" ${i.up ? `data-up="${i.up}"` : ''}>${i.text}</div>
+                        <div class="top-word">${i.text}</div>
+                        </div>`
+                        break;
+                    default:
+                        html[key] += `<div class="btn-box" data-no="${k}">
+                    <div class="connect-word">${i.content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')}</div>
+                    <div class="item" value="${i.text}" data-down="${i.text}" ${i.up ? `data-up="${i.up}"` : ''}>${i.text}</div>
+                    <div class="top-word">${i.text}</div>
                     </div>`
-                    break;
+                        break;
+                }
             }
         }
-        return `<div class="keyboard-border">
+        return `<div class="keyboard-border ${os === 'android'? 'android': 'ios'}">
             <div class="title">${this.title}</div>
-            <div class="keyboard-container">
-                <div class="row">${html}</div>
+            <div key="1" class="keyboard-container">
+                <div class="row">${html[1]}</div>
+            </div>
+            <div key="2" class="keyboard-container d-none">
+                <div class="row">${html[2]}</div>
             </div>
         </div>`
     }
@@ -279,6 +302,7 @@ class keyboard {
         } else {
             item = this.hoverItem
         }
+        console.log()
         if (item) {
             let text = item.getAttribute('value')
             switch (text) {
@@ -299,6 +323,14 @@ class keyboard {
                                 btn.parentNode.querySelector('.top-word').innerText = btn.getAttribute('data-down')
                             }
                         }
+                        if (this.data[btn.parentNode.parentNode.parentNode.getAttribute('key')][btn.parentNode.getAttribute('data-no')].content_up) {
+                            if (!this.isup) {
+                                console.log(btn.parentNode.querySelector('.connect-word').innerHTML)
+                                btn.parentNode.querySelector('.connect-word').innerHTML = this.data[1][btn.parentNode.getAttribute('data-no')].content_up.map(c => `<div class="word" value="${c}">${c}</div>`).join('')
+                            } else {
+                                btn.parentNode.querySelector('.connect-word').innerHTML = this.data[1][btn.parentNode.getAttribute('data-no')].content.map(c => `<div class="word" value="${c}">${c}</div>`).join('')
+                            }
+                        }
                     })
                     text = ''
                     this.isup = !this.isup
@@ -310,7 +342,19 @@ class keyboard {
                     text = ''
                     this.nodes.box.value = this.nodes.box.value.substring(0, this.nodes.box.value.length - 1)
                     break;
-                case "123": case "face": case "return": case "global": case "mic":
+                case "123": case "ABC":
+                    text = ''
+                    Object.values(this.nodes.template.querySelectorAll('.keyboard-container')).map(k => {
+                        console.log(k)
+                        console.log(item.parentNode.parentNode.parentNode)
+                        if(k === item.parentNode.parentNode.parentNode) {
+                            k.classList.toggle('d-none', true)
+                        }else {
+                            k.classList.toggle('d-none', false)
+                        }
+                    })
+                    break;
+                case "123": case "face": case "return": case "global": case "mic": case '#+=':
                     text = ''
                     break;
                 default:
