@@ -48,10 +48,10 @@ body {
     background: #F5F5DC;
     margin: auto;
     position: absolute;
-    width: 160px;
+    width: 192px;
     text-align: center;
     top: -15px;
-    right: calc(50% - 80px);
+    right: calc(50% - 96px);
     font-size: 20px;
     font-weight: bold;
 }
