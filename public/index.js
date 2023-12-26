@@ -86,7 +86,7 @@ class keyboard {
         let html = []
         let hasSymbol = false
         let os = 'ios'
-        if (this.title.includes('android')) {
+        if (this.title.includes('常駐')) {
             os = 'android'
         }
         for (const [key, item] of Object.entries(this.data)) {
