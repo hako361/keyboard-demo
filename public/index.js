@@ -72,6 +72,10 @@ class keyboard {
         const node = this.nodes.container.lastChild;
         this.nodes.template = node;
         this.nodes.btns = this.nodes.template.querySelectorAll('.item')
+        this.nodes.title = this.nodes.template.querySelector('.title')
+
+        this.nodes.title.style.width = this.title.length * 22 + 'px'
+        this.nodes.title.style.right = `calc(50% - ${this.title.length * 11}px)`
     }
 
     bindEvent() {
