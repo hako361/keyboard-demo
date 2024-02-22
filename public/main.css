@@ -32,6 +32,8 @@ body {
     width: 100%;
     height: auto;
     margin-top: 5%;
+    display: flex;
+    justify-content: center;
 }
 
 .keyboard-border {
@@ -42,6 +44,7 @@ body {
     border-left: none;
     position: relative;
     margin-top: 80px;
+    max-width: 600px;
 }
 
 .title {
