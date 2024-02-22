@@ -71,8 +71,8 @@ datas = {
                 },
                 "15": {
                     "text": "t",
-                    "content": ["t"],
-                    "content_up": ["T"],
+                    "content": ["t", "th", "tj", "tr"],
+                    "content_up": ["T", "TH", "TJ", "TR"],
                     "up": "T"
                 },
                 "16": {
@@ -94,8 +94,8 @@ datas = {
                 },
                 "19": {
                     "text": "o",
-                    "content": ["o", "o:"],
-                    "content_up": ["O", "O:"],
+                    "content": ["o", "o:", "oe"],
+                    "content_up": ["O", "O:", "OE"],
                     "up": "O"
                 },
                 "20": {
@@ -106,19 +106,20 @@ datas = {
                 },
                 "21": {
                     "text": "a",
-                    "content": ["a", "a:"],
-                    "content_up": ["A", "A:"],
+                    "content": ["a", "a:", "ae"],
+                    "content_up": ["A", "A:", "AE"],
                     "up": "A"
                 },
                 "22": {
                     "text": "s",
-                    "content": ["s"],
-                    "content_up": ["S"],
+                    "content": ["s", "sh"],
+                    "content_up": ["S", "SH"],
                     "up": "S"
                 },
                 "23": {
                     "text": "d",
-                    "content": ["d"],
+                    "content": ["d", "dh", "di", "dr"],
+                    "content_up": ["D", "DH", "DI", "DR"],
                     "up": "D"
                 },
                 "24": {
@@ -134,8 +135,8 @@ datas = {
                 },
                 "26": {
                     "text": "h",
-                    "content": ["h"],
-                    "content_up": ["H"],
+                    "content": ["h", "hl"],
+                    "content_up": ["H", "HL"],
                     "up": "H"
                 },
                 "27": {
@@ -151,8 +152,8 @@ datas = {
                 },
                 "29": {
                     "text": "l",
-                    "content": ["l"],
-                    "content_up": ["L"],
+                    "content": ["l", "lh", "lj", "lr"],
+                    "content_up": ["L", "LH", "LJ", "LR"],
                     "up": "L"
                 },
                 "30": {
@@ -193,8 +194,8 @@ datas = {
                 },
                 "37": {
                     "text": "n",
-                    "content": ["n"],
-                    "content_up": ["N"],
+                    "content": ["n", "ng"],
+                    "content_up": ["N", "NG"],
                     "up": "N"
                 },
                 "38": {
